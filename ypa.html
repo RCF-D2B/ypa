@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="YPA"/>
-<link rel="apple-touch-icon" href="ypa-icon.png"/>
+<!-- saved from url=(0035)file:///Users/RF/Downloads/ypa.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="YPA">
+<link rel="apple-touch-icon" href="file:///Users/RF/Downloads/ypa-icon.png">
 <title>YPA — Your Practice App</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+<link rel="stylesheet" href="./ypa_files/tabler-icons.min.css">
 <style>
 :root {
   --green: #1D9E75;
@@ -182,10 +182,8 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
   <div class="hero">
     <div class="streak-ring">
       <svg viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="8"/>
-        <circle id="streak-arc" cx="60" cy="60" r="52" fill="none" stroke="#1D9E75" stroke-width="8"
-          stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="327"
-          transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1s ease;"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="8"></circle>
+        <circle id="streak-arc" cx="60" cy="60" r="52" fill="none" stroke="#1D9E75" stroke-width="8" stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="327" transform="rotate(-90 60 60)" style="transition: stroke-dashoffset 1s; stroke-dashoffset: 327;"></circle>
       </svg>
       <div class="streak-number">
         <div class="streak-num" id="streak-display">0</div>
@@ -209,11 +207,31 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
   <div class="daily-card">
     <h2 id="daily-title">Today's assignments</h2>
     <p id="daily-sub">Select items below, then start your session.</p>
-    <div class="p-items" id="p-items-list"></div>
-    <button class="start-btn" id="start-btn" disabled onclick="startSession()">Start Practice</button>
+    <div class="p-items" id="p-items-list"><div class="p-item"><span class="pi-ico">♪</span>
+        <div class="pi-txt">
+          <div class="pi-name">Blackbird</div>
+          <div class="pi-type">Guitar · song · Key of G</div>
+        </div>
+        <span class="pi-chk">✓</span></div><div class="p-item"><span class="pi-ico">♪</span>
+        <div class="pi-txt">
+          <div class="pi-name">Somewhere Over the Rainbow</div>
+          <div class="pi-type">Ukulele · song · C tuning</div>
+        </div>
+        <span class="pi-chk">✓</span></div><div class="p-item"><span class="pi-ico">♩</span>
+        <div class="pi-txt">
+          <div class="pi-name">A minor pentatonic</div>
+          <div class="pi-type">Guitar · scale · Box 1</div>
+        </div>
+        <span class="pi-chk">✓</span></div><div class="p-item"><span class="pi-ico">♩</span>
+        <div class="pi-txt">
+          <div class="pi-name">C major</div>
+          <div class="pi-type">Ukulele · scale · Open position</div>
+        </div>
+        <span class="pi-chk">✓</span></div></div>
+    <button class="start-btn" id="start-btn" disabled="" onclick="startSession()">Select items to start</button>
   </div>
   <p class="sec-title">medals</p>
-  <div class="medals-grid" id="medals-grid"></div>
+  <div class="medals-grid" id="medals-grid"><div class="medal" title="Complete your first session"><div class="medal-ico">🎸</div><div class="medal-name">First note</div></div><div class="medal" title="7 days in a row"><div class="medal-ico">🔥</div><div class="medal-name">Week streak</div></div><div class="medal" title="Practice 10 times"><div class="medal-ico">🎵</div><div class="medal-name">10 sessions</div></div><div class="medal" title="30 days in a row"><div class="medal-ico">🌙</div><div class="medal-name">Month streak</div></div><div class="medal" title="Practice 50 times"><div class="medal-ico">⭐</div><div class="medal-name">50 sessions</div></div><div class="medal" title="60 total minutes played"><div class="medal-ico">⏱️</div><div class="medal-name">Hour club</div></div><div class="medal" title="100 sessions"><div class="medal-ico">💯</div><div class="medal-name">Century</div></div><div class="medal" title="365 day streak"><div class="medal-ico">🏆</div><div class="medal-name">Legend</div></div></div>
 </div>
 
 <!-- TIMER / TAB -->
@@ -245,41 +263,65 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
 <div id="screen-library" class="screen">
   <div class="lib-screen">
     <div class="lib-tabs">
-      <div class="lib-tab active" onclick="showLibTab('songs')">Songs</div>
-      <div class="lib-tab" onclick="showLibTab('scales')">Scales</div>
+      <div class="lib-tab active" onclick="showLibTab(&#39;songs&#39;)">Songs</div>
+      <div class="lib-tab" onclick="showLibTab(&#39;scales&#39;)">Scales</div>
     </div>
     <div id="lib-songs">
-      <div class="lib-list" id="songs-list"></div>
+      <div class="lib-list" id="songs-list"><div class="lib-item"><span style="font-size:18px;">♪</span>
+        <div class="lib-item-info">
+          <div class="lib-item-name">Blackbird</div>
+          <div class="lib-item-meta">Guitar · Key of G</div>
+          
+        </div>
+        <button class="lib-del" onclick="event.stopPropagation();deleteItem(&#39;song&#39;,&#39;so1&#39;)" aria-label="Delete">✕</button></div><div class="lib-item"><span style="font-size:18px;">♪</span>
+        <div class="lib-item-info">
+          <div class="lib-item-name">Somewhere Over the Rainbow</div>
+          <div class="lib-item-meta">Ukulele · C tuning</div>
+          
+        </div>
+        <button class="lib-del" onclick="event.stopPropagation();deleteItem(&#39;song&#39;,&#39;so2&#39;)" aria-label="Delete">✕</button></div></div>
       <div class="add-form">
         <h3>Add a song</h3>
         <div class="form-row">
-          <input type="text" id="new-song-name" placeholder="Song title"/>
+          <input type="text" id="new-song-name" placeholder="Song title">
           <select id="new-song-inst"><option value="Guitar">Guitar</option><option value="Ukulele">Ukulele</option><option value="Both">Both</option></select>
         </div>
         <div class="form-row single">
-          <input type="text" id="new-song-notes" placeholder="Key, capo, notes (optional)"/>
+          <input type="text" id="new-song-notes" placeholder="Key, capo, notes (optional)">
         </div>
         <div class="form-row single">
           <textarea id="new-song-tab" placeholder="Paste chords, lyrics or tab here (optional)"></textarea>
         </div>
-        <button class="add-item-btn" onclick="addItem('song')">Add song</button>
+        <button class="add-item-btn" onclick="addItem(&#39;song&#39;)">Add song</button>
       </div>
     </div>
     <div id="lib-scales" style="display:none;">
-      <div class="lib-list" id="scales-list"></div>
+      <div class="lib-list" id="scales-list"><div class="lib-item"><span style="font-size:18px;">♩</span>
+        <div class="lib-item-info">
+          <div class="lib-item-name">A minor pentatonic</div>
+          <div class="lib-item-meta">Guitar · Box 1</div>
+          <div class="lib-item-has-tab">✓ tab saved</div>
+        </div>
+        <button class="lib-del" onclick="event.stopPropagation();deleteItem(&#39;scale&#39;,&#39;sc1&#39;)" aria-label="Delete">✕</button></div><div class="lib-item"><span style="font-size:18px;">♩</span>
+        <div class="lib-item-info">
+          <div class="lib-item-name">C major</div>
+          <div class="lib-item-meta">Ukulele · Open position</div>
+          
+        </div>
+        <button class="lib-del" onclick="event.stopPropagation();deleteItem(&#39;scale&#39;,&#39;sc2&#39;)" aria-label="Delete">✕</button></div></div>
       <div class="add-form">
         <h3>Add a scale</h3>
         <div class="form-row">
-          <input type="text" id="new-scale-name" placeholder="e.g. A minor pentatonic"/>
+          <input type="text" id="new-scale-name" placeholder="e.g. A minor pentatonic">
           <select id="new-scale-inst"><option value="Guitar">Guitar</option><option value="Ukulele">Ukulele</option><option value="Both">Both</option></select>
         </div>
         <div class="form-row single">
-          <input type="text" id="new-scale-notes" placeholder="Position, pattern (optional)"/>
+          <input type="text" id="new-scale-notes" placeholder="Position, pattern (optional)">
         </div>
         <div class="form-row single">
           <textarea id="new-scale-tab" placeholder="Paste tab or fingering pattern here (optional)"></textarea>
         </div>
-        <button class="add-item-btn" onclick="addItem('scale')">Add scale</button>
+        <button class="add-item-btn" onclick="addItem(&#39;scale&#39;)">Add scale</button>
       </div>
     </div>
   </div>
@@ -289,19 +331,19 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
 <div id="screen-history" class="screen">
   <div style="padding:1rem;">
     <p class="sec-title" style="padding:0;margin-bottom:.85rem;">practice history</p>
-    <div id="history-list"></div>
+    <div id="history-list"><p style="font-size:13px;color:var(--text2);text-align:center;padding:1.5rem 0;">No sessions yet. Start practicing!</p></div>
     <div style="height:1.5rem;"></div>
     <p class="sec-title" style="padding:0;margin-bottom:.85rem;">data &amp; sync</p>
     <div class="data-card">
-      <h3>Export your data</h3>
-      <p>Download your library, streak, and history as a backup file. Use it to restore on any device.</p>
-      <button class="data-btn green" onclick="exportData()">Download backup</button>
+      <h3>Save backup to iCloud Drive</h3>
+      <p>Saves your library, streak, and history to iCloud Drive. Your backup will be available on all your Apple devices instantly.</p>
+      <button class="data-btn green" onclick="exportData()">Save to iCloud Drive</button>
     </div>
     <div class="data-card">
-      <h3>Import data</h3>
-      <p>Upload a backup file to restore your library and streak. Merges with your current data without duplicating.</p>
-      <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importData(event)"/>
-      <button class="data-btn outline" onclick="document.getElementById('import-file').click()">Upload backup file</button>
+      <h3>Restore from backup</h3>
+      <p>Restore your library and streak from a backup file in iCloud Drive. Merges with your current data without duplicating.</p>
+      <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importData(event)">
+      <button class="data-btn outline" onclick="document.getElementById(&#39;import-file&#39;).click()">Restore from iCloud Drive</button>
     </div>
   </div>
 </div>
@@ -311,7 +353,7 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
   <div class="edit-modal" onclick="event.stopPropagation()">
     <h3 id="edit-modal-title">Edit song</h3>
     <label>Title</label>
-    <input type="text" id="edit-name"/>
+    <input type="text" id="edit-name">
     <label>Instrument</label>
     <select id="edit-inst">
       <option value="Guitar">Guitar</option>
@@ -319,7 +361,7 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
       <option value="Both">Both</option>
     </select>
     <label>Notes / key / capo</label>
-    <input type="text" id="edit-notes"/>
+    <input type="text" id="edit-notes">
     <label>Tab / chords / lyrics</label>
     <textarea id="edit-tab"></textarea>
     <div class="modal-btns">
@@ -331,13 +373,13 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
 
 <!-- NAV -->
 <nav class="nav-bar">
-  <button class="nav-btn active" onclick="showScreen('home')" id="nav-home">
+  <button class="nav-btn active" onclick="showScreen(&#39;home&#39;)" id="nav-home">
     <i class="ti ti-home"></i>Home
   </button>
-  <button class="nav-btn" onclick="showScreen('library')" id="nav-library">
+  <button class="nav-btn" onclick="showScreen(&#39;library&#39;)" id="nav-library">
     <i class="ti ti-music"></i>Library
   </button>
-  <button class="nav-btn" onclick="showScreen('history')" id="nav-history">
+  <button class="nav-btn" onclick="showScreen(&#39;history&#39;)" id="nav-history">
     <i class="ti ti-calendar"></i>History
   </button>
 </nav>
@@ -721,7 +763,7 @@ function renderHistory() {
     </div>`).join('');
 }
 
-function exportData() {
+async function exportData() {
   const data = {
     version: 1,
     exported: new Date().toISOString(),
@@ -731,11 +773,25 @@ function exportData() {
     songs: state.songs, scales: state.scales,
     history: state.history.slice(0, 200)
   };
+  const filename = `ypa-backup-${new Date().toISOString().slice(0,10)}.json`;
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const file = new File([blob], filename, {type:'application/json'});
+  if (navigator.share && navigator.canShare && navigator.canShare({files:[file]})) {
+    try {
+      await navigator.share({
+        title: 'YPA Backup',
+        text: 'Your Practice App backup file',
+        files: [file]
+      });
+      return;
+    } catch(e) {
+      if (e.name === 'AbortError') return;
+    }
+  }
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `ypa-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -784,5 +840,6 @@ function showScreen(name) {
 
 loadState();
 </script>
-</body>
-</html>
+
+
+</body></html>
