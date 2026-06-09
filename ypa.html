@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,168 +11,171 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
 <style>
 :root {
-  --green: #1D9E75;
-  --green-dark: #0F6E56;
-  --green-darker: #085041;
-  --green-light: #E1F5EE;
-  --green-mid: #5DCAA5;
-  --green-pale: #9FE1CB;
-  --amber-bg: #FAEEDA;
-  --amber-border: #FAC775;
-  --amber-dark: #633806;
-  --amber-mid: #854F0B;
-  --bg: #ffffff;
-  --bg2: #f5f5f5;
-  --bg3: #eeeeee;
-  --text: #111111;
-  --text2: #555555;
-  --text3: #999999;
-  --border: rgba(0,0,0,0.1);
-  --border2: rgba(0,0,0,0.2);
-  --radius: 8px;
-  --radius-lg: 12px;
+  --green:#1D9E75; --green-dark:#0F6E56; --green-darker:#085041;
+  --green-light:#E1F5EE; --green-mid:#5DCAA5; --green-pale:#9FE1CB;
+  --amber-bg:#FAEEDA; --amber-border:#FAC775; --amber-dark:#633806; --amber-mid:#854F0B;
+  --bg:#ffffff; --bg2:#f5f5f5; --bg3:#eeeeee;
+  --text:#111111; --text2:#555555; --text3:#999999;
+  --border:rgba(0,0,0,0.1); --border2:rgba(0,0,0,0.2);
+  --radius:8px; --radius-lg:12px;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1a1a1a;
-    --bg2: #242424;
-    --bg3: #2e2e2e;
-    --text: #f0f0f0;
-    --text2: #aaaaaa;
-    --text3: #666666;
-    --border: rgba(255,255,255,0.1);
-    --border2: rgba(255,255,255,0.2);
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#1a1a1a; --bg2:#242424; --bg3:#2e2e2e;
+    --text:#f0f0f0; --text2:#aaaaaa; --text3:#666666;
+    --border:rgba(255,255,255,0.1); --border2:rgba(255,255,255,0.2);
   }
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; }
-body { display: flex; flex-direction: column; max-width: 480px; margin: 0 auto; position: relative; }
-
-/* SCREENS */
-.screen { display: none; flex: 1; overflow-y: auto; padding-bottom: 80px; }
-.screen.active { display: block; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;}
+body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;}
+.screen{display:none;flex:1;overflow-y:auto;padding-bottom:80px;}
+.screen.active{display:block;}
 
 /* NAV */
-.nav-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; display: flex; background: var(--bg); border-top: 0.5px solid var(--border); z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
-.nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 0 8px; cursor: pointer; background: none; border: none; border-top: 2px solid transparent; color: var(--text3); font-size: 10px; margin-top: -0.5px; }
-.nav-btn.active { color: var(--green); border-top-color: var(--green); }
-.nav-btn i { font-size: 22px; }
+.nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:var(--bg);border-top:0.5px solid var(--border);z-index:50;padding-bottom:env(safe-area-inset-bottom);}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 8px;cursor:pointer;background:none;border:none;border-top:2px solid transparent;color:var(--text3);font-size:10px;margin-top:-0.5px;}
+.nav-btn.active{color:var(--green);border-top-color:var(--green);}
+.nav-btn i{font-size:22px;}
 
 /* HOME */
-.hero { text-align: center; padding: 1.5rem 1rem 1rem; }
-.streak-ring { width: 120px; height: 120px; margin: 0 auto 0.75rem; position: relative; }
-.streak-ring svg { width: 100%; height: 100%; }
-.streak-number { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
-.streak-num { font-size: 30px; font-weight: 700; color: var(--text); line-height: 1; }
-.streak-lbl { font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: .06em; }
-.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 0 1rem 1.25rem; }
-.stat-card { background: var(--bg2); border-radius: var(--radius); padding: .65rem; text-align: center; }
-.stat-val { font-size: 22px; font-weight: 600; color: var(--text); }
-.stat-lbl { font-size: 11px; color: var(--text2); margin-top: 2px; }
-.sec-title { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .07em; padding: 0 1rem; margin-bottom: .5rem; }
-.daily-card { margin: 0 1rem 1rem; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.1rem; }
-.daily-card h2 { font-size: 17px; font-weight: 600; margin-bottom: .2rem; }
-.daily-card p { font-size: 13px; color: var(--text2); margin-bottom: .85rem; }
-.p-items { display: flex; flex-direction: column; gap: 7px; margin-bottom: .85rem; }
-.p-item { display: flex; align-items: center; gap: 9px; background: var(--bg2); border-radius: var(--radius); padding: 10px 11px; cursor: pointer; border: 0.5px solid transparent; transition: border-color .15s; }
-.p-item.sel { border-color: var(--green); background: var(--green-light); }
-.pi-ico { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; color: var(--text2); }
-.p-item.sel .pi-ico { color: var(--green-dark); }
-.pi-txt { flex: 1; }
-.pi-name { font-size: 14px; font-weight: 500; color: var(--text); }
-.pi-type { font-size: 11px; color: var(--text2); }
-.p-item.sel .pi-name { color: var(--green-dark); }
-.pi-chk { font-size: 18px; color: var(--green); opacity: 0; transition: opacity .15s; }
-.p-item.sel .pi-chk { opacity: 1; }
-.start-btn { width: 100%; padding: 14px; background: var(--green); color: white; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer; transition: background .15s; }
-.start-btn:active { background: var(--green-dark); }
-.start-btn:disabled { background: var(--bg3); color: var(--text3); cursor: default; }
-.medals-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 0 1rem 1.5rem; }
-.medal { background: var(--bg2); border-radius: var(--radius); padding: 10px 5px; text-align: center; border: 0.5px solid var(--border); }
-.medal.earned { background: var(--amber-bg); border-color: var(--amber-border); }
-.medal-ico { font-size: 22px; margin-bottom: 4px; filter: grayscale(1); opacity: .3; }
-.medal.earned .medal-ico { filter: none; opacity: 1; }
-.medal-name { font-size: 10px; color: var(--text2); line-height: 1.3; }
-.medal.earned .medal-name { color: var(--amber-dark); font-weight: 600; }
+.hero{text-align:center;padding:1.25rem 1rem 0.75rem;}
+.streak-ring{width:110px;height:110px;margin:0 auto 0.5rem;position:relative;}
+.streak-ring svg{width:100%;height:100%;}
+.streak-number{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.streak-num{font-size:28px;font-weight:700;color:var(--text);line-height:1;}
+.streak-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 1rem 1rem;}
+.stat-card{background:var(--bg2);border-radius:var(--radius);padding:.5rem;text-align:center;}
+.stat-val{font-size:18px;font-weight:600;color:var(--text);}
+.stat-lbl{font-size:10px;color:var(--text2);margin-top:1px;}
+.sec-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;padding:0 1rem;margin-bottom:.5rem;}
+.daily-card{margin:0 1rem 1rem;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;}
+.daily-card h2{font-size:16px;font-weight:600;margin-bottom:.15rem;}
+.daily-card p{font-size:12px;color:var(--text2);margin-bottom:.75rem;}
+.p-items{display:flex;flex-direction:column;gap:6px;margin-bottom:.75rem;}
+.p-item{display:flex;align-items:center;gap:9px;background:var(--bg2);border-radius:var(--radius);padding:9px 11px;border:0.5px solid transparent;}
+.p-item.scale-item{border-left:3px solid var(--green-mid);}
+.p-item.song-item{border-left:3px solid var(--green);}
+.pi-ico{font-size:16px;width:22px;text-align:center;flex-shrink:0;color:var(--text2);}
+.pi-txt{flex:1;}
+.pi-name{font-size:13px;font-weight:500;color:var(--text);}
+.pi-type{font-size:11px;color:var(--text2);}
+.pi-badge{font-size:10px;background:var(--green-light);color:var(--green-dark);padding:2px 6px;border-radius:10px;font-weight:500;}
 
-/* BANNERS */
-.banner { border-radius: var(--radius-lg); margin: 0 1rem .85rem; padding: 1rem; text-align: center; }
-.banner h2 { font-size: 17px; font-weight: 600; margin-bottom: .2rem; }
-.banner p { font-size: 13px; }
-.banner.green { background: var(--green-light); border: 0.5px solid var(--green-mid); }
-.banner.green h2 { color: var(--green-dark); }
-.banner.green p { color: var(--green); }
-.banner.amber { background: var(--amber-bg); border: 0.5px solid var(--amber-border); }
-.banner.amber h2 { color: var(--amber-dark); }
-.banner.amber p { color: var(--amber-mid); }
+/* TIME SELECTOR */
+.time-selector{margin:0 0 .75rem;}
+.time-label{font-size:12px;color:var(--text2);margin-bottom:.4rem;}
+.time-options{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.time-opt{padding:9px 4px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);text-align:center;transition:all .15s;}
+.time-opt.active{background:var(--green);color:white;border-color:var(--green);}
 
-/* TIMER / TAB SCREEN */
-.tab-screen { position: relative; margin: 1rem; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; min-height: calc(100vh - 180px); display: flex; flex-direction: column; }
-.tab-content { flex: 1; padding: 1.25rem 1.25rem 5rem; overflow-y: auto; padding-top: 4rem; }
-.tab-song-title { font-size: 20px; font-weight: 700; margin-bottom: .2rem; }
-.tab-song-meta { font-size: 12px; color: var(--text2); margin-bottom: 1.25rem; }
-.tab-text { font-family: 'Menlo', 'Courier New', monospace; font-size: 13px; line-height: 1.9; color: var(--text); white-space: pre-wrap; word-break: break-word; }
-.tab-empty { font-size: 14px; color: var(--text2); font-style: italic; padding: 2rem 0; text-align: center; }
-.float-timer { position: absolute; top: 10px; right: 10px; background: var(--green-darker); border-radius: 40px; padding: 6px 12px; display: flex; align-items: center; gap: 7px; z-index: 10; }
-.float-time { font-size: 18px; font-weight: 600; color: var(--green-light); font-variant-numeric: tabular-nums; }
-.float-count { font-size: 10px; color: var(--green-pale); }
-.float-play { width: 30px; height: 30px; border-radius: 50%; background: var(--green); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
-.float-adj-btn { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.15); border: none; cursor: pointer; color: var(--green-pale); font-size: 13px; display: flex; align-items: center; justify-content: center; }
-.done-bar { position: absolute; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 10px 12px; background: var(--bg); border-top: 0.5px solid var(--border); }
-.done-bar button { flex: 1; padding: 11px; border-radius: var(--radius); font-size: 13px; cursor: pointer; font-weight: 500; }
-.done-next { background: var(--green); color: white; border: none; }
-.done-next:active { background: var(--green-dark); }
-.done-end { background: none; border: 0.5px solid var(--border2); color: var(--text2); }
-.tab-nav { display: flex; gap: 7px; margin: 0 1rem .5rem; flex-wrap: wrap; }
-.tab-nav-btn { padding: 7px 12px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 12px; color: var(--text2); }
-.tab-nav-btn.active { border-color: var(--green); color: var(--green); }
+.start-btn{width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;}
+.start-btn:active{background:var(--green-dark);}
+.start-btn:disabled{background:var(--bg3);color:var(--text3);cursor:default;}
+.medals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:0 1rem 1.5rem;}
+.medal{background:var(--bg2);border-radius:var(--radius);padding:9px 5px;text-align:center;border:0.5px solid var(--border);}
+.medal.earned{background:var(--amber-bg);border-color:var(--amber-border);}
+.medal-ico{font-size:20px;margin-bottom:3px;filter:grayscale(1);opacity:.3;}
+.medal.earned .medal-ico{filter:none;opacity:1;}
+.medal-name{font-size:10px;color:var(--text2);line-height:1.3;}
+.medal.earned .medal-name{color:var(--amber-dark);font-weight:600;}
+.banner{border-radius:var(--radius-lg);margin:0 1rem .85rem;padding:1rem;text-align:center;}
+.banner h2{font-size:16px;font-weight:600;margin-bottom:.2rem;}
+.banner p{font-size:13px;}
+.banner.green{background:var(--green-light);border:0.5px solid var(--green-mid);}
+.banner.green h2{color:var(--green-dark);}
+.banner.green p{color:var(--green);}
+.banner.amber{background:var(--amber-bg);border:0.5px solid var(--amber-border);}
+.banner.amber h2{color:var(--amber-dark);}
+.banner.amber p{color:var(--amber-mid);}
+
+/* PRACTICE SCREEN */
+.practice-screen{position:relative;margin:1rem;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;}
+.practice-header{background:var(--green-darker);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.timer-display{font-size:28px;font-weight:700;color:white;font-variant-numeric:tabular-nums;letter-spacing:-1px;}
+.timer-display.overtime{color:#FFD580;}
+.header-right{display:flex;align-items:center;gap:10px;}
+.pause-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);border:none;cursor:pointer;color:white;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.pause-btn:active{background:rgba(255,255,255,.35);}
+.item-counter{font-size:11px;color:var(--green-pale);text-align:right;}
+.item-counter span{font-size:14px;font-weight:600;color:white;}
+
+.tab-content{flex:1;padding:1rem 1rem 5rem;overflow-y:auto;}
+.tab-song-title{font-size:18px;font-weight:700;margin-bottom:.15rem;}
+.tab-song-meta{font-size:12px;color:var(--text2);margin-bottom:1rem;}
+.tab-text{font-family:'Menlo','Courier New',monospace;font-size:13px;line-height:1.9;color:var(--text);white-space:pre-wrap;word-break:break-word;}
+.tab-empty{font-size:14px;color:var(--text2);font-style:italic;padding:2rem 0;text-align:center;}
+
+.item-nav{display:flex;gap:0;border-top:0.5px solid var(--border);flex-shrink:0;overflow-x:auto;}
+.item-nav-btn{flex:1;min-width:60px;padding:8px 4px;background:none;border:none;border-right:0.5px solid var(--border);cursor:pointer;font-size:10px;color:var(--text2);text-align:center;line-height:1.3;}
+.item-nav-btn:last-child{border-right:none;}
+.item-nav-btn.active{color:var(--green);background:var(--green-light);font-weight:600;}
+.item-nav-btn .nav-ico{font-size:14px;display:block;margin-bottom:2px;}
+
+.done-bar{position:absolute;bottom:0;left:0;right:0;display:flex;gap:8px;padding:10px 12px;background:var(--bg);border-top:0.5px solid var(--border);}
+.done-bar button{flex:1;padding:10px;border-radius:var(--radius);font-size:13px;cursor:pointer;font-weight:500;}
+.done-next{background:var(--green);color:white;border:none;}
+.done-next:active{background:var(--green-dark);}
+.done-end{background:none;border:0.5px solid var(--border2);color:var(--text2);}
+
+/* TIME UP OVERLAY */
+.timeup-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:300;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+.timeup-card{background:var(--bg);border-radius:20px;padding:2rem;text-align:center;width:100%;max-width:360px;}
+.timeup-card h2{font-size:22px;font-weight:700;margin-bottom:.5rem;}
+.timeup-card p{font-size:14px;color:var(--text2);margin-bottom:1.5rem;line-height:1.5;}
+.timeup-btns{display:flex;flex-direction:column;gap:10px;}
+.timeup-btns button{padding:14px;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;}
+.btn-continue{background:var(--green);color:white;border:none;}
+.btn-continue:active{background:var(--green-dark);}
+.btn-end{background:none;border:0.5px solid var(--border2);color:var(--text2);}
 
 /* LIBRARY */
-.lib-screen { padding: 1rem; }
-.lib-tabs { display: flex; gap: 7px; margin-bottom: .85rem; }
-.lib-tab { padding: 7px 16px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); }
-.lib-tab.active { background: var(--green); color: white; border-color: var(--green); }
-.lib-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: .85rem; }
-.lib-item { display: flex; align-items: center; gap: 9px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 10px 11px; cursor: pointer; }
-.lib-item:active { background: var(--bg2); }
-.lib-item-info { flex: 1; }
-.lib-item-name { font-size: 14px; font-weight: 500; }
-.lib-item-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
-.lib-item-has-tab { font-size: 10px; color: var(--green); margin-top: 2px; }
-.lib-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 18px; padding: 6px; }
-.lib-del:active { color: #E24B4A; }
-.add-form { background: var(--bg2); border-radius: var(--radius-lg); padding: .9rem; margin-bottom: 1rem; }
-.add-form h3 { font-size: 14px; font-weight: 600; margin-bottom: .65rem; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 7px; }
-.form-row.single { grid-template-columns: 1fr; }
-input, select, textarea { font-size: 14px; padding: 9px 11px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); color: var(--text); width: 100%; outline: none; font-family: inherit; }
-input:focus, select:focus, textarea:focus { border-color: var(--green); }
-textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier New', monospace; font-size: 12px; line-height: 1.7; }
-.add-item-btn { width: 100%; padding: 10px; background: var(--green); color: white; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 3px; }
-.add-item-btn:active { background: var(--green-dark); }
+.lib-screen{padding:1rem;}
+.lib-tabs{display:flex;gap:7px;margin-bottom:.85rem;}
+.lib-tab{padding:7px 16px;border-radius:20px;border:0.5px solid var(--border);background:var(--bg);cursor:pointer;font-size:13px;color:var(--text2);}
+.lib-tab.active{background:var(--green);color:white;border-color:var(--green);}
+.lib-list{display:flex;flex-direction:column;gap:7px;margin-bottom:.85rem;}
+.lib-item{display:flex;align-items:center;gap:9px;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 11px;cursor:pointer;}
+.lib-item:active{background:var(--bg2);}
+.lib-item-info{flex:1;}
+.lib-item-name{font-size:14px;font-weight:500;}
+.lib-item-meta{font-size:11px;color:var(--text2);margin-top:2px;}
+.lib-item-has-tab{font-size:10px;color:var(--green);margin-top:2px;}
+.lib-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:6px;}
+.lib-del:active{color:#E24B4A;}
+.add-form{background:var(--bg2);border-radius:var(--radius-lg);padding:.9rem;margin-bottom:1rem;}
+.add-form h3{font-size:14px;font-weight:600;margin-bottom:.65rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px;}
+.form-row.single{grid-template-columns:1fr;}
+input,select,textarea{font-size:14px;padding:9px 11px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);width:100%;outline:none;font-family:inherit;}
+input:focus,select:focus,textarea:focus{border-color:var(--green);}
+textarea{resize:vertical;min-height:90px;font-family:'Menlo','Courier New',monospace;font-size:12px;line-height:1.7;}
+.add-item-btn{width:100%;padding:10px;background:var(--green);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;margin-top:3px;}
+.add-item-btn:active{background:var(--green-dark);}
 
 /* EDIT MODAL */
-.overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.55); z-index: 200; display: flex; align-items: flex-end; justify-content: center; }
-.edit-modal { background: var(--bg); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom)); }
-.edit-modal h3 { font-size: 17px; font-weight: 600; margin-bottom: 1rem; }
-.edit-modal label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 4px; margin-top: .65rem; }
-.edit-modal textarea { min-height: 180px; }
-.modal-btns { display: flex; gap: 8px; margin-top: 1rem; }
-.modal-btns button { flex: 1; padding: 12px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; }
-.modal-save { background: var(--green); color: white; border: none; }
-.modal-save:active { background: var(--green-dark); }
-.modal-cancel { background: none; border: 0.5px solid var(--border2); color: var(--text2); }
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end;justify-content:center;}
+.edit-modal{background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));}
+.edit-modal h3{font-size:17px;font-weight:600;margin-bottom:1rem;}
+.edit-modal label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px;margin-top:.65rem;}
+.edit-modal textarea{min-height:180px;}
+.modal-btns{display:flex;gap:8px;margin-top:1rem;}
+.modal-btns button{flex:1;padding:12px;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;}
+.modal-save{background:var(--green);color:white;border:none;}
+.modal-save:active{background:var(--green-dark);}
+.modal-cancel{background:none;border:0.5px solid var(--border2);color:var(--text2);}
 
-/* HISTORY + DATA */
-.hist-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
-.data-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.1rem; margin-bottom: .85rem; }
-.data-card h3 { font-size: 14px; font-weight: 600; margin-bottom: .35rem; }
-.data-card p { font-size: 12px; color: var(--text2); margin-bottom: .85rem; line-height: 1.5; }
-.data-btn { padding: 11px 20px; border-radius: var(--radius); font-size: 14px; cursor: pointer; font-weight: 500; display: inline-block; }
-.data-btn.green { background: var(--green); color: white; border: none; }
-.data-btn.green:active { background: var(--green-dark); }
-.data-btn.outline { background: none; border: 0.5px solid var(--border2); color: var(--text); }
-.data-btn.outline:active { background: var(--bg2); }
+/* HISTORY */
+.hist-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:0.5px solid var(--border);}
+.data-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem;margin-bottom:.85rem;}
+.data-card h3{font-size:14px;font-weight:600;margin-bottom:.35rem;}
+.data-card p{font-size:12px;color:var(--text2);margin-bottom:.85rem;line-height:1.5;}
+.data-btn{padding:11px 20px;border-radius:var(--radius);font-size:14px;cursor:pointer;font-weight:500;display:inline-block;}
+.data-btn.green{background:var(--green);color:white;border:none;}
+.data-btn.green:active{background:var(--green-dark);}
+.data-btn.outline{background:none;border:0.5px solid var(--border2);color:var(--text);}
+.data-btn.outline:active{background:var(--bg2);}
 </style>
 </head>
 <body>
@@ -182,11 +184,11 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
 <div id="screen-home" class="screen active">
   <div class="hero">
     <div class="streak-ring">
-      <svg viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="8"/>
-        <circle id="streak-arc" cx="60" cy="60" r="52" fill="none" stroke="#1D9E75" stroke-width="8"
-          stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="327"
-          transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1s ease;"/>
+      <svg viewBox="0 0 110 110">
+        <circle cx="55" cy="55" r="47" fill="none" stroke="var(--border)" stroke-width="7"/>
+        <circle id="streak-arc" cx="55" cy="55" r="47" fill="none" stroke="#1D9E75" stroke-width="7"
+          stroke-linecap="round" stroke-dasharray="295" stroke-dashoffset="295"
+          transform="rotate(-90 55 55)" style="transition:stroke-dashoffset 1s ease;"/>
       </svg>
       <div class="streak-number">
         <div class="streak-num" id="streak-display">0</div>
@@ -198,48 +200,59 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
     <div class="stat-card"><div class="stat-val" id="total-sessions">0</div><div class="stat-lbl">sessions</div></div>
     <div class="stat-card"><div class="stat-val" id="total-minutes">0</div><div class="stat-lbl">minutes</div></div>
     <div class="stat-card"><div class="stat-val" id="best-streak">0</div><div class="stat-lbl">best streak</div></div>
+    <div class="stat-card"><div class="stat-val" id="avg-minutes">0</div><div class="stat-lbl">avg min</div></div>
   </div>
   <div id="complete-banner" class="banner green" style="display:none;">
     <h2>Practice complete! 🎵</h2><p id="complete-msg"></p>
   </div>
   <div id="medal-banner" class="banner amber" style="display:none;">
-    <div style="font-size:38px;margin-bottom:5px;" id="medal-icon"></div>
+    <div style="font-size:36px;margin-bottom:4px;" id="medal-icon"></div>
     <h2 id="medal-name"></h2><p id="medal-desc"></p>
   </div>
   <p class="sec-title">today's practice</p>
   <div class="daily-card">
     <h2 id="daily-title">Today's assignments</h2>
-    <p id="daily-sub">Select items below, then start your session.</p>
+    <p id="daily-sub">Choose a duration, then start your session.</p>
     <div class="p-items" id="p-items-list"></div>
-    <button class="start-btn" id="start-btn" disabled onclick="startSession()">Start Practice</button>
+    <div class="time-selector">
+      <div class="time-label">Practice duration</div>
+      <div class="time-options">
+        <div class="time-opt" onclick="selectTime(15)" id="time-15">15 min</div>
+        <div class="time-opt active" onclick="selectTime(30)" id="time-30">30 min</div>
+        <div class="time-opt" onclick="selectTime(45)" id="time-45">45 min</div>
+        <div class="time-opt" onclick="selectTime(60)" id="time-60">1 hour</div>
+      </div>
+    </div>
+    <button class="start-btn" id="start-btn" onclick="startSession()">Start Practice</button>
   </div>
   <p class="sec-title">medals</p>
   <div class="medals-grid" id="medals-grid"></div>
 </div>
 
-<!-- TIMER / TAB -->
-<div id="screen-timer" class="screen">
-  <div class="tab-screen">
-    <div class="float-timer">
-      <button class="float-adj-btn" onclick="adjTimer(-60)" aria-label="-1 min">−</button>
+<!-- PRACTICE SCREEN -->
+<div id="screen-practice" class="screen">
+  <div class="practice-screen" id="practice-screen-inner">
+    <div class="practice-header">
       <div>
-        <div class="float-time" id="float-time">5:00</div>
-        <div class="float-count" id="float-count">1 of 1</div>
+        <div class="timer-display" id="timer-display">30:00</div>
+        <div style="font-size:10px;color:var(--green-pale);margin-top:2px;" id="timer-label">remaining</div>
       </div>
-      <button class="float-play" id="float-play" onclick="toggleTimer()" aria-label="Play/pause">▶</button>
-      <button class="float-adj-btn" onclick="adjTimer(60)" aria-label="+1 min">+</button>
+      <div class="header-right">
+        <div class="item-counter">item<br><span id="item-counter">1/4</span></div>
+        <button class="pause-btn" id="pause-btn" onclick="togglePause()" aria-label="Pause">⏸</button>
+      </div>
     </div>
     <div class="tab-content" id="tab-content">
       <div class="tab-song-title" id="tab-title"></div>
       <div class="tab-song-meta" id="tab-meta"></div>
       <div id="tab-body"></div>
     </div>
+    <div class="item-nav" id="item-nav"></div>
     <div class="done-bar">
-      <button class="done-next" onclick="markDone()">Done — next →</button>
-      <button class="done-end" onclick="endSession(false)">End session</button>
+      <button class="done-next" id="done-next-btn" onclick="nextItem()">Next item →</button>
+      <button class="done-end" onclick="confirmEndSession()">End session</button>
     </div>
   </div>
-  <div class="tab-nav" id="tab-nav"></div>
 </div>
 
 <!-- LIBRARY -->
@@ -295,12 +308,12 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
     <p class="sec-title" style="padding:0;margin-bottom:.85rem;">data &amp; sync</p>
     <div class="data-card">
       <h3>Save backup to iCloud Drive</h3>
-      <p>Saves your library, streak, and history to iCloud Drive. Your backup will be available on all your Apple devices instantly.</p>
+      <p>Saves your library, streak, and history. Available on all your Apple devices instantly.</p>
       <button class="data-btn green" onclick="exportData()">Save to iCloud Drive</button>
     </div>
     <div class="data-card">
       <h3>Restore from backup</h3>
-      <p>Restore your library and streak from a backup file in iCloud Drive. Merges with your current data without duplicating.</p>
+      <p>Restore your library and streak from a backup file. Merges without duplicating.</p>
       <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importData(event)"/>
       <button class="data-btn outline" onclick="document.getElementById('import-file').click()">Restore from iCloud Drive</button>
     </div>
@@ -330,48 +343,63 @@ textarea { resize: vertical; min-height: 90px; font-family: 'Menlo', 'Courier Ne
   </div>
 </div>
 
+<!-- TIME UP OVERLAY -->
+<div class="timeup-overlay" id="timeup-overlay" style="display:none;">
+  <div class="timeup-card">
+    <div style="font-size:40px;margin-bottom:.5rem;">⏰</div>
+    <h2>Time's up!</h2>
+    <p id="timeup-msg">You've completed your practice session.<br>Keep going?</p>
+    <div class="timeup-btns">
+      <button class="btn-continue" onclick="continueSession()">Keep playing ▶</button>
+      <button class="btn-end" onclick="endSession()">End session</button>
+    </div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav class="nav-bar">
-  <button class="nav-btn active" onclick="showScreen('home')" id="nav-home">
-    <i class="ti ti-home"></i>Home
-  </button>
-  <button class="nav-btn" onclick="showScreen('library')" id="nav-library">
-    <i class="ti ti-music"></i>Library
-  </button>
-  <button class="nav-btn" onclick="showScreen('history')" id="nav-history">
-    <i class="ti ti-calendar"></i>History
-  </button>
+  <button class="nav-btn active" onclick="showScreen('home')" id="nav-home"><i class="ti ti-home"></i>Home</button>
+  <button class="nav-btn" onclick="showScreen('library')" id="nav-library"><i class="ti ti-music"></i>Library</button>
+  <button class="nav-btn" onclick="showScreen('history')" id="nav-history"><i class="ti ti-calendar"></i>History</button>
 </nav>
 
 <script>
 const MEDALS = [
-  {id:'first', icon:'🎸', name:'First note',   check: s => s.totalSessions >= 1,   desc:'Complete your first session'},
-  {id:'week',  icon:'🔥', name:'Week streak',  check: s => s.streak >= 7,           desc:'7 days in a row'},
-  {id:'s10',   icon:'🎵', name:'10 sessions',  check: s => s.totalSessions >= 10,  desc:'Practice 10 times'},
-  {id:'month', icon:'🌙', name:'Month streak', check: s => s.streak >= 30,          desc:'30 days in a row'},
-  {id:'s50',   icon:'⭐', name:'50 sessions',  check: s => s.totalSessions >= 50,  desc:'Practice 50 times'},
-  {id:'hr',    icon:'⏱️', name:'Hour club',    check: s => s.totalMinutes >= 60,   desc:'60 total minutes played'},
-  {id:'s100',  icon:'💯', name:'Century',      check: s => s.totalSessions >= 100, desc:'100 sessions'},
-  {id:'yr',    icon:'🏆', name:'Legend',       check: s => s.streak >= 365,         desc:'365 day streak'},
+  {id:'first', icon:'🎸', name:'First note',   check:s=>s.totalSessions>=1,   desc:'Complete your first session'},
+  {id:'week',  icon:'🔥', name:'Week streak',  check:s=>s.streak>=7,           desc:'7 days in a row'},
+  {id:'s10',   icon:'🎵', name:'10 sessions',  check:s=>s.totalSessions>=10,  desc:'Practice 10 times'},
+  {id:'month', icon:'🌙', name:'Month streak', check:s=>s.streak>=30,          desc:'30 days in a row'},
+  {id:'s50',   icon:'⭐', name:'50 sessions',  check:s=>s.totalSessions>=50,  desc:'Practice 50 times'},
+  {id:'hr',    icon:'⏱️', name:'Hour club',    check:s=>s.totalMinutes>=60,   desc:'60 total minutes played'},
+  {id:'s100',  icon:'💯', name:'Century',      check:s=>s.totalSessions>=100, desc:'100 sessions'},
+  {id:'yr',    icon:'🏆', name:'Legend',       check:s=>s.streak>=365,         desc:'365 day streak'},
 ];
 
-const STORAGE_KEY = 'ypa_standalone_v1';
+const STORAGE_KEY = 'ypa_v11';
 
 let state = {
-  streak:0, bestStreak:0, totalSessions:0, totalMinutes:0,
+  streak:0, bestStreak:0, totalSessions:0, totalMinutes:0, totalMinutesAllTime:0,
   lastSessionDate:null, songs:[], scales:[], history:[], medals:[], todayDone:false,
-  sessionItems:[], sessionIndex:0, timerSecs:300, timerRunning:false,
-  timerInterval:null, sessionStart:null
 };
-let selectedItems = [];
-let dailyItems = [];
-let editId = null, editType = null;
 
+// Session state (not persisted)
+let session = {
+  items:[], index:0, chosenMins:30,
+  timerSecs:0, running:false, interval:null,
+  overtime:false, startTime:null, wakeLock:null
+};
+
+let selectedTime = 30;
+let editId = null, editType = null;
+let dailyItems = [];
+
+// ── STORAGE ──────────────────────────────────────────────
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) Object.assign(state, JSON.parse(raw));
   } catch(e) {}
+  // Seed default library if empty
   if (!state.songs.length) {
     state.songs = [
       {id:'so1', name:'Blackbird', instrument:'Guitar', notes:'Key of G', tab:''},
@@ -392,45 +420,55 @@ function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
 }
 
-function today() {
+// ── DATE / STREAK ─────────────────────────────────────────
+function todayKey() {
   const d = new Date();
-  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
 function checkStreak() {
   if (!state.lastSessionDate) { state.todayDone = false; return; }
-  if (state.lastSessionDate === today()) { state.todayDone = true; return; }
-  const last = new Date(state.lastSessionDate.replace(/-/g, '/'));
+  if (state.lastSessionDate === todayKey()) { state.todayDone = true; return; }
+  const last = new Date(state.lastSessionDate);
   const now = new Date(); now.setHours(0,0,0,0); last.setHours(0,0,0,0);
-  const daysDiff = Math.round((now - last) / 86400000);
-  // Grace period: streak resets only after 2 missed days (48-hour grace like Headspace)
-  if (daysDiff > 2) state.streak = 0;
+  const diff = Math.round((now - last) / 86400000);
+  if (diff > 2) state.streak = 0; // 48-hour grace period
   state.todayDone = false;
 }
 
-function getDailyItems() {
-  const all = [
-    ...state.scales.map(s => ({...s, kind:'scale'})),
-    ...state.songs.map(s => ({...s, kind:'song'}))
-  ];
-  if (!all.length) return [];
+// ── DAILY ITEMS (scales first, then songs) ────────────────
+function getDailyItems(count) {
+  const scales = [...state.scales.map(s=>({...s,kind:'scale'}))];
+  const songs  = [...state.songs.map(s=>({...s,kind:'song'}))];
   const seed = new Date().toDateString();
   let h = 0;
-  for (let c of seed) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
-  return [...all].sort(() => { h^=h<<13; h^=h>>17; h^=h<<5; return (h&1)?1:-1; })
-                 .slice(0, Math.min(4, all.length));
+  for (let c of seed) h = (h*31 + c.charCodeAt(0)) & 0xffffffff;
+  const shuffle = arr => [...arr].sort(()=>{ h^=h<<13;h^=h>>17;h^=h<<5; return(h&1)?1:-1; });
+  const shuffledScales = shuffle(scales);
+  const shuffledSongs  = shuffle(songs);
+  // Always start with scales, then fill with songs
+  const scaleCount = Math.min(shuffledScales.length, Math.max(1, Math.floor(count/4)));
+  const songCount  = count - scaleCount;
+  return [
+    ...shuffledScales.slice(0, scaleCount),
+    ...shuffledSongs.slice(0, Math.min(shuffledSongs.length, songCount))
+  ].slice(0, count);
 }
 
+// ── RENDER ────────────────────────────────────────────────
 function render() {
   document.getElementById('streak-display').textContent = state.streak;
   document.getElementById('total-sessions').textContent = state.totalSessions;
   document.getElementById('total-minutes').textContent = state.totalMinutes;
   document.getElementById('best-streak').textContent = state.bestStreak;
-  const arc = document.getElementById('streak-arc');
-  const pct = Math.min(state.streak / 30, 1);
-  setTimeout(() => { arc.style.strokeDashoffset = 327 - (327 * pct); }, 100);
+  const avg = state.totalSessions > 0 ? Math.round(state.totalMinutesAllTime / state.totalSessions) : 0;
+  document.getElementById('avg-minutes').textContent = avg;
 
-  dailyItems = getDailyItems();
+  const arc = document.getElementById('streak-arc');
+  setTimeout(() => { arc.style.strokeDashoffset = 295 - (295 * Math.min(state.streak/30,1)); }, 100);
+
+  const itemCount = selectedTime >= 45 ? 5 : 4;
+  dailyItems = getDailyItems(itemCount);
   const list = document.getElementById('p-items-list');
   list.innerHTML = '';
   if (!dailyItems.length) {
@@ -439,28 +477,24 @@ function render() {
   } else {
     dailyItems.forEach((item, i) => {
       const d = document.createElement('div');
-      d.className = 'p-item' + (selectedItems.includes(i) ? ' sel' : '');
-      d.onclick = () => toggleItem(i);
-      const ico = item.kind === 'scale' ? '♩' : '♪';
-      d.innerHTML = `<span class="pi-ico">${ico}</span>
+      d.className = `p-item ${item.kind}-item`;
+      d.innerHTML = `<span class="pi-ico">${item.kind==='scale'?'♩':'♪'}</span>
         <div class="pi-txt">
           <div class="pi-name">${item.name}</div>
-          <div class="pi-type">${item.instrument} · ${item.kind}${item.notes ? ' · ' + item.notes : ''}</div>
+          <div class="pi-type">${item.instrument}${item.notes?' · '+item.notes:''}</div>
         </div>
-        <span class="pi-chk">✓</span>`;
+        <span class="pi-badge">${item.kind}</span>`;
       list.appendChild(d);
     });
-    const btn = document.getElementById('start-btn');
-    btn.disabled = selectedItems.length === 0;
+    document.getElementById('start-btn').disabled = false;
     if (state.todayDone) {
       document.getElementById('daily-title').textContent = "Today's practice done!";
       document.getElementById('daily-sub').textContent = 'Streak maintained. Practice more anytime.';
-      btn.textContent = 'Practice again';
-      btn.disabled = false;
+      document.getElementById('start-btn').textContent = 'Practice again';
     } else {
       document.getElementById('daily-title').textContent = "Today's assignments";
-      document.getElementById('daily-sub').textContent = 'Select items below, then start your session.';
-      btn.textContent = selectedItems.length ? 'Start Practice' : 'Select items to start';
+      document.getElementById('daily-sub').textContent = 'Choose a duration, then start your session.';
+      document.getElementById('start-btn').textContent = 'Start Practice';
     }
   }
   renderMedals();
@@ -468,19 +502,227 @@ function render() {
   renderHistory();
 }
 
-function toggleItem(i) {
-  const idx = selectedItems.indexOf(i);
-  if (idx >= 0) selectedItems.splice(idx, 1); else selectedItems.push(i);
-  render();
+function selectTime(mins) {
+  selectedTime = mins;
+  document.querySelectorAll('.time-opt').forEach(el => el.classList.remove('active'));
+  document.getElementById(`time-${mins}`).classList.add('active');
+  render(); // re-render to update item count
 }
 
+// ── SESSION ───────────────────────────────────────────────
+function startSession() {
+  const itemCount = selectedTime >= 45 ? 5 : 4;
+  session.items = getDailyItems(itemCount);
+  session.index = 0;
+  session.chosenMins = selectedTime;
+  session.timerSecs = selectedTime * 60;
+  session.running = false;
+  session.overtime = false;
+  session.startTime = Date.now();
+  acquireWakeLock();
+  loadPracticeItem();
+  showScreen('practice');
+  // Auto-start timer
+  setTimeout(() => startTimer(), 300);
+}
+
+function loadPracticeItem() {
+  const item = session.items[session.index];
+  document.getElementById('tab-title').textContent = item.name;
+  document.getElementById('tab-meta').textContent =
+    `${item.instrument} · ${item.kind}${item.notes?' · '+item.notes:''}`;
+  const body = document.getElementById('tab-body');
+  if (item.tab && item.tab.trim()) {
+    const pre = document.createElement('pre');
+    pre.className = 'tab-text';
+    pre.textContent = item.tab;
+    body.innerHTML = ''; body.appendChild(pre);
+  } else {
+    body.innerHTML = '<div class="tab-empty">No tab saved yet.<br>Go to Library to add chords or tab.</div>';
+  }
+  document.getElementById('tab-content').scrollTop = 0;
+  document.getElementById('item-counter').textContent = `${session.index+1}/${session.items.length}`;
+  // Update done-next button label
+  const btn = document.getElementById('done-next-btn');
+  btn.textContent = session.index < session.items.length-1 ? 'Next item →' : 'Finish items ✓';
+  buildItemNav();
+}
+
+function buildItemNav() {
+  const nav = document.getElementById('item-nav');
+  nav.innerHTML = '';
+  session.items.forEach((item, i) => {
+    const b = document.createElement('button');
+    b.className = 'item-nav-btn' + (i===session.index?' active':'');
+    b.innerHTML = `<span class="nav-ico">${item.kind==='scale'?'♩':'♪'}</span>${item.name.length>10?item.name.slice(0,9)+'…':item.name}`;
+    b.onclick = () => { session.index=i; loadPracticeItem(); };
+    nav.appendChild(b);
+  });
+}
+
+function nextItem() {
+  if (session.index < session.items.length-1) {
+    session.index++;
+    loadPracticeItem();
+  } else {
+    // Cycled through all items — go back to first
+    session.index = 0;
+    loadPracticeItem();
+  }
+}
+
+// ── TIMER ─────────────────────────────────────────────────
+function startTimer() {
+  if (session.running) return;
+  session.running = true;
+  document.getElementById('pause-btn').textContent = '⏸';
+  session.interval = setInterval(tickTimer, 1000);
+}
+
+function tickTimer() {
+  if (session.overtime) {
+    session.timerSecs++;
+    updateTimerDisplay();
+  } else {
+    if (session.timerSecs > 0) {
+      session.timerSecs--;
+      updateTimerDisplay();
+    } else {
+      // Time's up!
+      clearInterval(session.interval);
+      session.running = false;
+      document.getElementById('pause-btn').textContent = '▶';
+      showTimeUp();
+    }
+  }
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer-display');
+  const lbl = document.getElementById('timer-label');
+  const s = session.timerSecs;
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  el.textContent = `${m}:${String(sec).padStart(2,'0')}`;
+  if (session.overtime) {
+    el.className = 'timer-display overtime';
+    lbl.textContent = 'overtime';
+  } else {
+    el.className = 'timer-display';
+    lbl.textContent = 'remaining';
+  }
+}
+
+function togglePause() {
+  if (session.running) {
+    clearInterval(session.interval);
+    session.running = false;
+    document.getElementById('pause-btn').textContent = '▶';
+  } else {
+    startTimer();
+  }
+}
+
+function showTimeUp() {
+  const mins = session.chosenMins;
+  document.getElementById('timeup-msg').textContent =
+    `You've completed your ${mins}-minute session. Keep going?`;
+  document.getElementById('timeup-overlay').style.display = 'flex';
+}
+
+function continueSession() {
+  document.getElementById('timeup-overlay').style.display = 'none';
+  session.overtime = true;
+  session.timerSecs = 0;
+  updateTimerDisplay();
+  startTimer();
+}
+
+function confirmEndSession() {
+  endSession();
+}
+
+function endSession() {
+  clearInterval(session.interval);
+  session.running = false;
+  document.getElementById('timeup-overlay').style.display = 'none';
+  releaseWakeLock();
+
+  const totalSecs = Math.round((Date.now() - session.startTime) / 1000);
+  const mins = Math.max(1, Math.round(totalSecs / 60));
+
+  state.totalSessions++;
+  state.totalMinutes += mins;
+  state.totalMinutesAllTime = (state.totalMinutesAllTime||0) + mins;
+
+  const prevMedals = [...state.medals];
+  if (!state.todayDone) {
+    state.streak++;
+    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+    state.lastSessionDate = todayKey();
+    state.todayDone = true;
+  }
+
+  const newMedals = MEDALS.filter(m => !prevMedals.includes(m.id) && m.check(state));
+  newMedals.forEach(m => state.medals.push(m.id));
+
+  state.history.unshift({
+    date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+    items: session.items.map(i=>i.name),
+    mins, streak: state.streak,
+    planned: session.chosenMins
+  });
+
+  saveState();
+  showScreen('home');
+  render();
+
+  document.getElementById('complete-banner').style.display = 'block';
+  const avg = Math.round(state.totalMinutesAllTime / state.totalSessions);
+  document.getElementById('complete-msg').textContent =
+    `${mins} min · Streak: ${state.streak} day${state.streak!==1?'s':''} · Avg: ${avg} min`;
+
+  if (newMedals.length) {
+    const m = newMedals[0];
+    document.getElementById('medal-banner').style.display = 'block';
+    document.getElementById('medal-icon').textContent = m.icon;
+    document.getElementById('medal-name').textContent = 'New medal: ' + m.name;
+    document.getElementById('medal-desc').textContent = m.desc;
+  }
+  setTimeout(() => {
+    document.getElementById('complete-banner').style.display = 'none';
+    document.getElementById('medal-banner').style.display = 'none';
+  }, 8000);
+}
+
+// ── WAKE LOCK (keeps screen on during practice) ───────────
+async function acquireWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      session.wakeLock = await navigator.wakeLock.request('screen');
+    }
+  } catch(e) {}
+}
+
+function releaseWakeLock() {
+  try {
+    if (session.wakeLock) { session.wakeLock.release(); session.wakeLock = null; }
+  } catch(e) {}
+}
+
+// Re-acquire wake lock if page becomes visible again
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && session.running) acquireWakeLock();
+});
+
+// ── LIBRARY ───────────────────────────────────────────────
 function renderMedals() {
   const g = document.getElementById('medals-grid');
   g.innerHTML = '';
   MEDALS.forEach(m => {
     const earned = state.medals.includes(m.id);
     const d = document.createElement('div');
-    d.className = 'medal' + (earned ? ' earned' : '');
+    d.className = 'medal'+(earned?' earned':'');
     d.title = m.desc;
     d.innerHTML = `<div class="medal-ico">${m.icon}</div><div class="medal-name">${m.name}</div>`;
     g.appendChild(d);
@@ -498,33 +740,33 @@ function renderLibrary() {
         <div class="lib-item-info">
           <div class="lib-item-name">${s.name}</div>
           <div class="lib-item-meta">${s.instrument}${s.notes?' · '+s.notes:''}</div>
-          ${s.tab ? '<div class="lib-item-has-tab">✓ tab saved</div>' : ''}
+          ${s.tab?'<div class="lib-item-has-tab">✓ tab saved</div>':''}
         </div>
         <button class="lib-del" onclick="event.stopPropagation();deleteItem('${type==='songs'?'song':'scale'}','${s.id}')" aria-label="Delete">✕</button>`;
-      d.onclick = () => openEdit(type === 'songs' ? 'song' : 'scale', s.id);
+      d.onclick = () => openEdit(type==='songs'?'song':'scale', s.id);
       el.appendChild(d);
     });
   });
 }
 
 function openEdit(type, id) {
-  const list = type === 'song' ? state.songs : state.scales;
-  const item = list.find(s => s.id === id);
+  const list = type==='song' ? state.songs : state.scales;
+  const item = list.find(s=>s.id===id);
   if (!item) return;
-  editId = id; editType = type;
-  document.getElementById('edit-modal-title').textContent = type === 'song' ? 'Edit song' : 'Edit scale';
+  editId=id; editType=type;
+  document.getElementById('edit-modal-title').textContent = type==='song'?'Edit song':'Edit scale';
   document.getElementById('edit-name').value = item.name;
   document.getElementById('edit-inst').value = item.instrument;
-  document.getElementById('edit-notes').value = item.notes || '';
-  document.getElementById('edit-tab').value = item.tab || '';
+  document.getElementById('edit-notes').value = item.notes||'';
+  document.getElementById('edit-tab').value = item.tab||'';
   document.getElementById('edit-overlay').style.display = 'flex';
 }
 
 function saveEdit() {
-  const list = editType === 'song' ? state.songs : state.scales;
-  const item = list.find(s => s.id === editId);
+  const list = editType==='song' ? state.songs : state.scales;
+  const item = list.find(s=>s.id===editId);
   if (!item) return;
-  item.name = document.getElementById('edit-name').value.trim() || item.name;
+  item.name = document.getElementById('edit-name').value.trim()||item.name;
   item.instrument = document.getElementById('edit-inst').value;
   item.notes = document.getElementById('edit-notes').value.trim();
   item.tab = document.getElementById('edit-tab').value;
@@ -533,7 +775,7 @@ function saveEdit() {
 }
 
 function closeEdit(e) {
-  if (!e || e.target === document.getElementById('edit-overlay'))
+  if (!e||e.target===document.getElementById('edit-overlay'))
     document.getElementById('edit-overlay').style.display = 'none';
 }
 
@@ -542,175 +784,39 @@ function addItem(type) {
   const name = nameEl.value.trim();
   if (!name) return;
   const item = {
-    id: type[0] + Date.now(),
-    name,
+    id: type[0]+Date.now(), name,
     instrument: document.getElementById(`new-${type}-inst`).value,
     notes: document.getElementById(`new-${type}-notes`).value.trim(),
     tab: document.getElementById(`new-${type}-tab`).value
   };
-  if (type === 'song') state.songs.push(item); else state.scales.push(item);
-  nameEl.value = '';
-  document.getElementById(`new-${type}-notes`).value = '';
-  document.getElementById(`new-${type}-tab`).value = '';
+  if (type==='song') state.songs.push(item); else state.scales.push(item);
+  nameEl.value='';
+  document.getElementById(`new-${type}-notes`).value='';
+  document.getElementById(`new-${type}-tab`).value='';
   saveState(); render();
 }
 
 function deleteItem(type, id) {
-  if (type === 'song') state.songs = state.songs.filter(s => s.id !== id);
-  else state.scales = state.scales.filter(s => s.id !== id);
+  if (type==='song') state.songs=state.songs.filter(s=>s.id!==id);
+  else state.scales=state.scales.filter(s=>s.id!==id);
   saveState(); render();
 }
 
 function showLibTab(tab) {
-  document.querySelectorAll('.lib-tab').forEach((t, i) =>
-    t.classList.toggle('active', (i===0&&tab==='songs')||(i===1&&tab==='scales')));
-  document.getElementById('lib-songs').style.display = tab === 'songs' ? '' : 'none';
-  document.getElementById('lib-scales').style.display = tab === 'scales' ? '' : 'none';
+  document.querySelectorAll('.lib-tab').forEach((t,i)=>
+    t.classList.toggle('active',(i===0&&tab==='songs')||(i===1&&tab==='scales')));
+  document.getElementById('lib-songs').style.display=tab==='songs'?'':'none';
+  document.getElementById('lib-scales').style.display=tab==='scales'?'':'none';
 }
 
-function startSession() {
-  if (!selectedItems.length && !state.todayDone) return;
-  const items = selectedItems.length ? selectedItems.map(i => dailyItems[i]) : dailyItems.slice(0,1);
-  state.sessionItems = items;
-  state.sessionIndex = 0;
-  state.sessionStart = Date.now();
-  loadTimerItem();
-  showScreen('timer');
-}
-
-function loadTimerItem() {
-  const item = state.sessionItems[state.sessionIndex];
-  document.getElementById('tab-title').textContent = item.name;
-  document.getElementById('tab-meta').textContent =
-    `${item.instrument} · ${item.kind}${item.notes ? ' · ' + item.notes : ''}`;
-  const body = document.getElementById('tab-body');
-  if (item.tab && item.tab.trim()) {
-    const pre = document.createElement('pre');
-    pre.className = 'tab-text';
-    pre.textContent = item.tab;
-    body.innerHTML = '';
-    body.appendChild(pre);
-  } else {
-    body.innerHTML = '<div class="tab-empty">No tab saved yet.<br>Tap this item in Library to add chords or tab.</div>';
-  }
-  document.getElementById('float-count').textContent =
-    `${state.sessionIndex + 1} of ${state.sessionItems.length}`;
-  state.timerSecs = 300;
-  state.timerRunning = false;
-  clearInterval(state.timerInterval);
-  updateTimerDisplay();
-  document.getElementById('float-play').textContent = '▶';
-  buildTabNav();
-}
-
-function buildTabNav() {
-  const nav = document.getElementById('tab-nav');
-  nav.innerHTML = '';
-  if (state.sessionItems.length <= 1) return;
-  state.sessionItems.forEach((item, i) => {
-    const b = document.createElement('button');
-    b.className = 'tab-nav-btn' + (i === state.sessionIndex ? ' active' : '');
-    b.textContent = item.name.length > 16 ? item.name.slice(0,15) + '…' : item.name;
-    b.onclick = () => {
-      state.sessionIndex = i;
-      clearInterval(state.timerInterval);
-      state.timerRunning = false;
-      loadTimerItem();
-    };
-    nav.appendChild(b);
-  });
-}
-
-function updateTimerDisplay() {
-  const m = Math.floor(state.timerSecs / 60);
-  const s = state.timerSecs % 60;
-  document.getElementById('float-time').textContent = `${m}:${s.toString().padStart(2,'0')}`;
-}
-
-function toggleTimer() {
-  if (state.timerRunning) {
-    clearInterval(state.timerInterval);
-    state.timerRunning = false;
-    document.getElementById('float-play').textContent = '▶';
-  } else {
-    state.timerRunning = true;
-    document.getElementById('float-play').textContent = '⏸';
-    state.timerInterval = setInterval(() => {
-      if (state.timerSecs > 0) {
-        state.timerSecs--;
-        updateTimerDisplay();
-      } else {
-        clearInterval(state.timerInterval);
-        state.timerRunning = false;
-        document.getElementById('float-play').textContent = '▶';
-      }
-    }, 1000);
-  }
-}
-
-function adjTimer(d) {
-  state.timerSecs = Math.max(60, state.timerSecs + d);
-  updateTimerDisplay();
-}
-
-function markDone() {
-  clearInterval(state.timerInterval);
-  state.timerRunning = false;
-  state.sessionIndex++;
-  if (state.sessionIndex < state.sessionItems.length) {
-    loadTimerItem();
-  } else {
-    endSession(true);
-  }
-}
-
-function endSession(completed = false) {
-  clearInterval(state.timerInterval);
-  state.timerRunning = false;
-  const mins = Math.max(1, Math.round((Date.now() - state.sessionStart) / 60000));
-  state.totalSessions++;
-  state.totalMinutes += mins;
-  const prevMedals = [...state.medals];
-  if (!state.todayDone) {
-    state.streak++;
-    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
-    state.lastSessionDate = today();
-    state.todayDone = true;
-  }
-  const newMedals = MEDALS.filter(m => !prevMedals.includes(m.id) && m.check(state));
-  newMedals.forEach(m => state.medals.push(m.id));
-  state.history.unshift({
-    date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}),
-    items: state.sessionItems.map(i => i.name),
-    mins, streak: state.streak
-  });
-  selectedItems = [];
-  saveState();
-  showScreen('home');
-  render();
-  document.getElementById('complete-banner').style.display = 'block';
-  document.getElementById('complete-msg').textContent =
-    `${mins} min · Streak: ${state.streak} day${state.streak !== 1 ? 's' : ''}`;
-  if (newMedals.length) {
-    const m = newMedals[0];
-    document.getElementById('medal-banner').style.display = 'block';
-    document.getElementById('medal-icon').textContent = m.icon;
-    document.getElementById('medal-name').textContent = 'New medal: ' + m.name;
-    document.getElementById('medal-desc').textContent = m.desc;
-  }
-  setTimeout(() => {
-    document.getElementById('complete-banner').style.display = 'none';
-    document.getElementById('medal-banner').style.display = 'none';
-  }, 7000);
-}
-
+// ── HISTORY ───────────────────────────────────────────────
 function renderHistory() {
   const el = document.getElementById('history-list');
   if (!state.history.length) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--text2);text-align:center;padding:1.5rem 0;">No sessions yet. Start practicing!</p>';
+    el.innerHTML='<p style="font-size:13px;color:var(--text2);text-align:center;padding:1.5rem 0;">No sessions yet. Start practicing!</p>';
     return;
   }
-  el.innerHTML = state.history.slice(0, 50).map(h => `
+  el.innerHTML = state.history.slice(0,50).map(h=>`
     <div class="hist-item">
       <div style="background:var(--bg2);border-radius:var(--radius);padding:5px 9px;text-align:center;min-width:46px;">
         <div style="font-size:17px;font-weight:600;">${h.mins}</div>
@@ -719,41 +825,31 @@ function renderHistory() {
       <div style="flex:1;">
         <div style="font-size:13px;font-weight:500;">${h.date}</div>
         <div style="font-size:12px;color:var(--text2);margin-top:1px;">${h.items.join(', ')}</div>
-        <div style="font-size:11px;color:#1D9E75;margin-top:2px;">🔥 ${h.streak}-day streak</div>
+        <div style="font-size:11px;color:#1D9E75;margin-top:2px;">🔥 ${h.streak}-day streak${h.planned?' · planned '+h.planned+' min':''}</div>
       </div>
     </div>`).join('');
 }
 
+// ── EXPORT / IMPORT ───────────────────────────────────────
 async function exportData() {
   const data = {
-    version: 1,
-    exported: new Date().toISOString(),
-    streak: state.streak, bestStreak: state.bestStreak,
-    totalSessions: state.totalSessions, totalMinutes: state.totalMinutes,
-    lastSessionDate: state.lastSessionDate, medals: state.medals,
-    songs: state.songs, scales: state.scales,
-    history: state.history.slice(0, 200)
+    version:2, exported:new Date().toISOString(),
+    streak:state.streak, bestStreak:state.bestStreak,
+    totalSessions:state.totalSessions, totalMinutes:state.totalMinutes,
+    totalMinutesAllTime:state.totalMinutesAllTime||state.totalMinutes,
+    lastSessionDate:state.lastSessionDate, medals:state.medals,
+    songs:state.songs, scales:state.scales, history:state.history.slice(0,200)
   };
   const filename = `ypa-backup-${new Date().toISOString().slice(0,10)}.json`;
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  const file = new File([blob], filename, {type:'application/json'});
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const file = new File([blob],filename,{type:'application/json'});
   if (navigator.share && navigator.canShare && navigator.canShare({files:[file]})) {
-    try {
-      await navigator.share({
-        title: 'YPA Backup',
-        text: 'Your Practice App backup file',
-        files: [file]
-      });
-      return;
-    } catch(e) {
-      if (e.name === 'AbortError') return;
-    }
+    try { await navigator.share({title:'YPA Backup',files:[file]}); return; }
+    catch(e) { if (e.name==='AbortError') return; }
   }
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.click();
+  a.href=url; a.download=filename; a.click();
   URL.revokeObjectURL(url);
 }
 
@@ -764,39 +860,43 @@ function importData(event) {
   reader.onload = e => {
     try {
       const data = JSON.parse(e.target.result);
-      if (data.version !== 1) throw new Error('Unknown format');
-      if (data.streak !== undefined) state.streak = Math.max(state.streak, data.streak);
-      if (data.bestStreak !== undefined) state.bestStreak = Math.max(state.bestStreak, data.bestStreak);
-      if (data.totalSessions !== undefined) state.totalSessions = Math.max(state.totalSessions, data.totalSessions);
-      if (data.totalMinutes !== undefined) state.totalMinutes = Math.max(state.totalMinutes, data.totalMinutes);
-      if (data.lastSessionDate) state.lastSessionDate = state.lastSessionDate || data.lastSessionDate;
-      if (data.medals) state.medals = [...new Set([...state.medals, ...data.medals])];
+      if (data.streak!==undefined) state.streak=Math.max(state.streak,data.streak);
+      if (data.bestStreak!==undefined) state.bestStreak=Math.max(state.bestStreak,data.bestStreak);
+      if (data.totalSessions!==undefined) state.totalSessions=Math.max(state.totalSessions,data.totalSessions);
+      if (data.totalMinutes!==undefined) state.totalMinutes=Math.max(state.totalMinutes,data.totalMinutes);
+      if (data.totalMinutesAllTime!==undefined) state.totalMinutesAllTime=Math.max(state.totalMinutesAllTime||0,data.totalMinutesAllTime);
+      if (data.lastSessionDate) state.lastSessionDate=state.lastSessionDate||data.lastSessionDate;
+      if (data.medals) state.medals=[...new Set([...state.medals,...data.medals])];
       if (data.songs) {
-        const ids = new Set(state.songs.map(s => s.id));
-        data.songs.forEach(s => { if (!ids.has(s.id)) state.songs.push(s); });
+        const ids=new Set(state.songs.map(s=>s.id));
+        data.songs.forEach(s=>{if(!ids.has(s.id))state.songs.push(s);});
       }
       if (data.scales) {
-        const ids = new Set(state.scales.map(s => s.id));
-        data.scales.forEach(s => { if (!ids.has(s.id)) state.scales.push(s); });
+        const ids=new Set(state.scales.map(s=>s.id));
+        data.scales.forEach(s=>{if(!ids.has(s.id))state.scales.push(s);});
       }
-      if (data.history) state.history = [...data.history, ...state.history].slice(0, 200);
+      if (data.history) state.history=[...data.history,...state.history].slice(0,200);
       checkStreak(); saveState(); render();
-      alert('Import successful! Your library and streak have been restored.');
-    } catch(err) {
-      alert('Could not read that file. Make sure it is a valid YPA backup.');
-    }
+      alert('Restored successfully!');
+    } catch(err) { alert('Could not read that file. Make sure it is a valid YPA backup.'); }
   };
   reader.readAsText(file);
-  event.target.value = '';
+  event.target.value='';
 }
 
+// ── NAVIGATION ────────────────────────────────────────────
 function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(`screen-${name}`).classList.add('active');
-  const map = {home:'nav-home', library:'nav-library', history:'nav-history'};
-  if (map[name]) document.getElementById(map[name]).classList.add('active');
-  window.scrollTo(0, 0);
+  const map={home:'nav-home',library:'nav-library',history:'nav-history'};
+  if(map[name]) document.getElementById(map[name]).classList.add('active');
+  window.scrollTo(0,0);
+  // Size practice screen to fill viewport
+  if (name==='practice') {
+    const ps = document.getElementById('practice-screen-inner');
+    ps.style.minHeight = (window.innerHeight - 140) + 'px';
+  }
 }
 
 loadState();
