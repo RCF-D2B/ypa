@@ -236,8 +236,10 @@ textarea{resize:vertical;min-height:90px;font-family:'Menlo','Courier New',monos
       <div>
         <div class="timer-display" id="timer-display">30:00</div>
         <div style="font-size:10px;color:var(--green-pale);margin-top:2px;" id="timer-label">remaining</div>
+        <div style="font-size:9px;margin-top:1px;color:var(--green-pale);opacity:.85;" id="awake-status"></div>
       </div>
       <div class="header-right">
+        <video id="awake-video" playsinline loop style="width:22px;height:22px;border-radius:50%;object-fit:cover;display:none;flex-shrink:0;"></video>
         <div class="item-counter">item<br><span id="item-counter">1/4</span></div>
         <button class="pause-btn" id="pause-btn" onclick="togglePause()" aria-label="Pause">⏸</button>
       </div>
@@ -344,6 +346,17 @@ textarea{resize:vertical;min-height:90px;font-family:'Menlo','Courier New',monos
 </div>
 
 <!-- TIME UP OVERLAY -->
+<div class="timeup-overlay" id="resume-overlay" style="display:none;">
+  <div class="timeup-card">
+    <h2>Unfinished session 🎸</h2>
+    <p id="resume-msg">Your practice session was interrupted.</p>
+    <div class="timeup-btns">
+      <button class="btn-continue" onclick="resumeSession()">Resume practice</button>
+      <button class="btn-end" onclick="recordUnfinishedSession()">End &amp; record it</button>
+    </div>
+  </div>
+</div>
+
 <div class="timeup-overlay" id="timeup-overlay" style="display:none;">
   <div class="timeup-card">
     <div style="font-size:40px;margin-bottom:.5rem;">⏰</div>
@@ -519,6 +532,7 @@ function startSession() {
   session.running = false;
   session.overtime = false;
   session.startTime = Date.now();
+  persistSession(true);
   acquireWakeLock();
   loadPracticeItem();
   showScreen('practice');
@@ -589,9 +603,11 @@ function tickTimer() {
   if (session.overtime) {
     session.timerSecs = session.anchorSecs + elapsed;
     updateTimerDisplay();
+    persistSession();
   } else {
     session.timerSecs = Math.max(0, session.anchorSecs - elapsed);
     updateTimerDisplay();
+    persistSession();
     if (session.timerSecs <= 0) {
       // Time's up!
       clearInterval(session.interval);
@@ -623,6 +639,7 @@ function togglePause() {
     tickTimer(); // freeze the display at the exact current time
     clearInterval(session.interval);
     session.running = false;
+    persistSession(true);
     document.getElementById('pause-btn').textContent = '▶';
   } else {
     startTimer();
@@ -653,9 +670,9 @@ function endSession() {
   session.running = false;
   document.getElementById('timeup-overlay').style.display = 'none';
   releaseWakeLock();
+  clearPersistedSession();
 
-  const totalSecs = Math.round((Date.now() - session.startTime) / 1000);
-  const mins = Math.max(1, Math.round(totalSecs / 60));
+  const mins = Math.max(1, Math.round(practicedSecs() / 60));
 
   state.totalSessions++;
   state.totalMinutes += mins;
@@ -702,57 +719,79 @@ function endSession() {
 }
 
 // ── WAKE LOCK (keeps screen on during practice) ───────────
-// Two layers of protection, because the official Wake Lock API is
-// unreliable in iPhone home-screen web apps:
-//   1. The native Wake Lock API (re-acquired automatically if dropped)
-//   2. A tiny invisible silent looping video (iOS never sleeps the
-//      screen while a video is playing)
-const NOSLEEP_VIDEO_SRC = 'data:video/mp4;base64,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';
-let noSleepVideo = null;
+// Three layers:
+//   1. A small VISIBLE pulsing-dot video in the practice header.
+//      iOS only keeps the screen on for video it can actually see —
+//      an invisible video is treated as audio, and audio lets the
+//      screen sleep. This is why v1.3's hidden video failed.
+//   2. The native Wake Lock API (re-acquired automatically if dropped)
+//   3. A 15-second watchdog that restarts both if they stop
+const NOSLEEP_VIDEO_SRC = 'data:video/mp4;base64,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';
 let wakeLockKeeper = null;
 
-function getNoSleepVideo() {
-  if (noSleepVideo) return noSleepVideo;
-  const v = document.createElement('video');
-  v.setAttribute('playsinline', '');
-  v.setAttribute('loop', '');
-  v.setAttribute('title', '');
-  v.muted = false;          // audio track is pure silence; unmuted keeps iOS awake
-  v.volume = 0.01;
-  v.style.cssText = 'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-10px;top:-10px;';
-  v.src = NOSLEEP_VIDEO_SRC;
-  // Nudge playback if the loop ever stalls
-  v.addEventListener('timeupdate', () => { if (v.currentTime > 1.5) v.currentTime = 0.1; });
-  document.body.appendChild(v);
-  noSleepVideo = v;
+function getAwakeVideo() {
+  const v = document.getElementById('awake-video');
+  if (!v.src) {
+    v.src = NOSLEEP_VIDEO_SRC;
+    v.muted = false; // audio track is pure silence; must be unmuted to count as real playback
+    v.addEventListener('timeupdate', () => { if (v.currentTime > 1.8) v.currentTime = 0.05; });
+  }
   return v;
 }
 
+function setAwakeStatus(ok) {
+  const el = document.getElementById('awake-status');
+  if (!el) return;
+  el.textContent = ok ? 'screen awake ✓' : '⚠ screen may sleep';
+  el.style.color = ok ? 'var(--green-pale)' : '#FAC775';
+}
+
 async function acquireWakeLock() {
-  // Layer 2 first: start the silent video synchronously, while we are
-  // still inside the user's tap (iOS requires this for video playback)
-  try { getNoSleepVideo().play().catch(()=>{}); } catch(e) {}
-  // Layer 1: native wake lock
+  // Start the visible video first, synchronously, while still inside
+  // the user's tap (iOS requires a tap to start playback)
+  const v = getAwakeVideo();
+  v.style.display = 'block';
+  let playPromise;
+  try { playPromise = v.play(); } catch(e) { playPromise = Promise.reject(e); }
+
+  // Native wake lock
   try {
     if ('wakeLock' in navigator) {
       session.wakeLock = await navigator.wakeLock.request('screen');
       session.wakeLock.addEventListener('release', () => {
-        // If it gets dropped mid-session and we're visible, grab it again
         if (session.running && document.visibilityState === 'visible') {
           setTimeout(() => { if (session.running) acquireWakeLock(); }, 500);
         }
       });
     }
+  } catch(e) { session.wakeLock = null; }
+
+  let videoOk = false;
+  try { await playPromise; videoOk = !v.paused; } catch(e) { videoOk = false; }
+
+  // Label the media session so the Dynamic Island shows YPA, not a mystery
+  try {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'YPA practice session', artist: 'keeping your screen awake'
+      });
+    }
   } catch(e) {}
-  // Safety net: every 20s, make sure both layers are still alive
+
+  setAwakeStatus(!!session.wakeLock || videoOk);
+
+  // Watchdog: every 15s, make sure both layers are still alive
   if (!wakeLockKeeper) {
     wakeLockKeeper = setInterval(() => {
-      if (!session.running && !document.getElementById('screen-practice').classList.contains('active')) return;
-      if (noSleepVideo && noSleepVideo.paused) noSleepVideo.play().catch(()=>{});
+      if (!session.running) return;
+      const vid = document.getElementById('awake-video');
+      if (vid && vid.src && vid.paused) vid.play().catch(()=>{});
       if (!session.wakeLock && 'wakeLock' in navigator && document.visibilityState === 'visible') {
-        navigator.wakeLock.request('screen').then(wl => { session.wakeLock = wl; }).catch(()=>{});
+        navigator.wakeLock.request('screen')
+          .then(wl => { session.wakeLock = wl; setAwakeStatus(true); })
+          .catch(()=>{});
       }
-    }, 20000);
+    }, 15000);
   }
 }
 
@@ -760,7 +799,10 @@ function releaseWakeLock() {
   try {
     if (session.wakeLock) { session.wakeLock.release(); session.wakeLock = null; }
   } catch(e) {}
-  try { if (noSleepVideo) { noSleepVideo.pause(); } } catch(e) {}
+  try {
+    const v = document.getElementById('awake-video');
+    if (v) { v.pause(); v.style.display = 'none'; }
+  } catch(e) {}
   if (wakeLockKeeper) { clearInterval(wakeLockKeeper); wakeLockKeeper = null; }
 }
 
@@ -775,6 +817,67 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('focus', () => {
   if (session.running) { acquireWakeLock(); tickTimer(); }
 });
+
+// ── SESSION PERSISTENCE (survives the app being closed) ──────
+// Progress is saved continuously, so if iOS kills the app mid-session
+// the practice can be resumed or recorded instead of lost.
+const ACTIVE_KEY = STORAGE_KEY + '_active';
+let lastPersist = 0;
+
+function practicedSecs() {
+  return session.overtime
+    ? session.chosenMins * 60 + session.timerSecs
+    : Math.max(0, session.chosenMins * 60 - session.timerSecs);
+}
+
+function persistSession(force) {
+  if (!force && Date.now() - lastPersist < 3000) return;
+  lastPersist = Date.now();
+  try {
+    localStorage.setItem(ACTIVE_KEY, JSON.stringify({
+      items: session.items, index: session.index, chosenMins: session.chosenMins,
+      timerSecs: session.timerSecs, overtime: session.overtime,
+      startTime: session.startTime, savedAt: Date.now()
+    }));
+  } catch(e) {}
+}
+
+function clearPersistedSession() {
+  try { localStorage.removeItem(ACTIVE_KEY); } catch(e) {}
+}
+
+function checkUnfinishedSession() {
+  try {
+    const raw = localStorage.getItem(ACTIVE_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    if (!s.items || !s.items.length) { clearPersistedSession(); return; }
+    Object.assign(session, {
+      items: s.items, index: s.index || 0, chosenMins: s.chosenMins,
+      timerSecs: s.timerSecs, overtime: !!s.overtime,
+      startTime: s.startTime, running: false
+    });
+    const mins = Math.max(1, Math.round(practicedSecs() / 60));
+    document.getElementById('resume-msg').textContent =
+      `Your ${s.chosenMins}-minute session was interrupted with about ` +
+      `${mins} minute${mins !== 1 ? 's' : ''} already played. What would you like to do?`;
+    document.getElementById('resume-overlay').style.display = 'flex';
+  } catch(e) { clearPersistedSession(); }
+}
+
+function resumeSession() {
+  document.getElementById('resume-overlay').style.display = 'none';
+  loadPracticeItem();
+  updateTimerDisplay();
+  showScreen('practice');
+  acquireWakeLock();
+  startTimer();
+}
+
+function recordUnfinishedSession() {
+  document.getElementById('resume-overlay').style.display = 'none';
+  endSession();
+}
 
 // ── LIBRARY ───────────────────────────────────────────────
 function renderMedals() {
@@ -974,6 +1077,7 @@ function showScreen(name) {
 }
 
 loadState();
+checkUnfinishedSession();
 </script>
 </body>
 </html>
