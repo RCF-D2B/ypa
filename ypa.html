@@ -302,21 +302,21 @@ textarea{resize:vertical;min-height:90px;font-family:'Menlo','Courier New',monos
 <!-- HISTORY + DATA -->
 <div id="screen-history" class="screen">
   <div style="padding:1rem;">
-    <p class="sec-title" style="padding:0;margin-bottom:.85rem;">practice history</p>
-    <div id="history-list"></div>
-    <div style="height:1.5rem;"></div>
     <p class="sec-title" style="padding:0;margin-bottom:.85rem;">data &amp; sync</p>
     <div class="data-card">
-      <h3>Save backup to iCloud Drive</h3>
-      <p>Saves your library, streak, and history. Available on all your Apple devices instantly.</p>
-      <button class="data-btn green" onclick="exportData()">Save to iCloud Drive</button>
+      <h3>Save backup to Dropbox</h3>
+      <p>Saves your library, streak, and history. Available on all your devices.</p>
+      <button class="data-btn green" onclick="exportData()">Save to Dropbox</button>
     </div>
     <div class="data-card">
       <h3>Restore from backup</h3>
-      <p>Restore your library and streak from a backup file. Merges without duplicating.</p>
+      <p>Restore your library, streak, and any edits from a backup file. Edits in the backup replace older versions here.</p>
       <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importData(event)"/>
-      <button class="data-btn outline" onclick="document.getElementById('import-file').click()">Restore from iCloud Drive</button>
+      <button class="data-btn outline" onclick="document.getElementById('import-file').click()">Restore from Dropbox</button>
     </div>
+    <div style="height:1.5rem;"></div>
+    <p class="sec-title" style="padding:0;margin-bottom:.85rem;">practice history</p>
+    <div id="history-list"></div>
   </div>
 </div>
 
@@ -572,22 +572,27 @@ function nextItem() {
 }
 
 // ── TIMER ─────────────────────────────────────────────────
+// Timestamp-based: the clock is computed from real time, so it stays
+// accurate even if the screen sleeps or the app is backgrounded.
 function startTimer() {
   if (session.running) return;
   session.running = true;
+  session.anchorTime = Date.now();
+  session.anchorSecs = session.timerSecs;
   document.getElementById('pause-btn').textContent = '⏸';
-  session.interval = setInterval(tickTimer, 1000);
+  session.interval = setInterval(tickTimer, 500);
 }
 
 function tickTimer() {
+  if (!session.running) return;
+  const elapsed = Math.floor((Date.now() - session.anchorTime) / 1000);
   if (session.overtime) {
-    session.timerSecs++;
+    session.timerSecs = session.anchorSecs + elapsed;
     updateTimerDisplay();
   } else {
-    if (session.timerSecs > 0) {
-      session.timerSecs--;
-      updateTimerDisplay();
-    } else {
+    session.timerSecs = Math.max(0, session.anchorSecs - elapsed);
+    updateTimerDisplay();
+    if (session.timerSecs <= 0) {
       // Time's up!
       clearInterval(session.interval);
       session.running = false;
@@ -615,6 +620,7 @@ function updateTimerDisplay() {
 
 function togglePause() {
   if (session.running) {
+    tickTimer(); // freeze the display at the exact current time
     clearInterval(session.interval);
     session.running = false;
     document.getElementById('pause-btn').textContent = '▶';
@@ -696,23 +702,78 @@ function endSession() {
 }
 
 // ── WAKE LOCK (keeps screen on during practice) ───────────
+// Two layers of protection, because the official Wake Lock API is
+// unreliable in iPhone home-screen web apps:
+//   1. The native Wake Lock API (re-acquired automatically if dropped)
+//   2. A tiny invisible silent looping video (iOS never sleeps the
+//      screen while a video is playing)
+const NOSLEEP_VIDEO_SRC = 'data:video/mp4;base64,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';
+let noSleepVideo = null;
+let wakeLockKeeper = null;
+
+function getNoSleepVideo() {
+  if (noSleepVideo) return noSleepVideo;
+  const v = document.createElement('video');
+  v.setAttribute('playsinline', '');
+  v.setAttribute('loop', '');
+  v.setAttribute('title', '');
+  v.muted = false;          // audio track is pure silence; unmuted keeps iOS awake
+  v.volume = 0.01;
+  v.style.cssText = 'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-10px;top:-10px;';
+  v.src = NOSLEEP_VIDEO_SRC;
+  // Nudge playback if the loop ever stalls
+  v.addEventListener('timeupdate', () => { if (v.currentTime > 1.5) v.currentTime = 0.1; });
+  document.body.appendChild(v);
+  noSleepVideo = v;
+  return v;
+}
+
 async function acquireWakeLock() {
+  // Layer 2 first: start the silent video synchronously, while we are
+  // still inside the user's tap (iOS requires this for video playback)
+  try { getNoSleepVideo().play().catch(()=>{}); } catch(e) {}
+  // Layer 1: native wake lock
   try {
     if ('wakeLock' in navigator) {
       session.wakeLock = await navigator.wakeLock.request('screen');
+      session.wakeLock.addEventListener('release', () => {
+        // If it gets dropped mid-session and we're visible, grab it again
+        if (session.running && document.visibilityState === 'visible') {
+          setTimeout(() => { if (session.running) acquireWakeLock(); }, 500);
+        }
+      });
     }
   } catch(e) {}
+  // Safety net: every 20s, make sure both layers are still alive
+  if (!wakeLockKeeper) {
+    wakeLockKeeper = setInterval(() => {
+      if (!session.running && !document.getElementById('screen-practice').classList.contains('active')) return;
+      if (noSleepVideo && noSleepVideo.paused) noSleepVideo.play().catch(()=>{});
+      if (!session.wakeLock && 'wakeLock' in navigator && document.visibilityState === 'visible') {
+        navigator.wakeLock.request('screen').then(wl => { session.wakeLock = wl; }).catch(()=>{});
+      }
+    }, 20000);
+  }
 }
 
 function releaseWakeLock() {
   try {
     if (session.wakeLock) { session.wakeLock.release(); session.wakeLock = null; }
   } catch(e) {}
+  try { if (noSleepVideo) { noSleepVideo.pause(); } } catch(e) {}
+  if (wakeLockKeeper) { clearInterval(wakeLockKeeper); wakeLockKeeper = null; }
 }
 
-// Re-acquire wake lock if page becomes visible again
+// Re-acquire wake lock and snap the timer up to date when the app
+// becomes visible again (e.g. after a phone call or app switch)
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && session.running) acquireWakeLock();
+  if (document.visibilityState === 'visible' && session.running) {
+    acquireWakeLock();
+    tickTimer();
+  }
+});
+window.addEventListener('focus', () => {
+  if (session.running) { acquireWakeLock(); tickTimer(); }
 });
 
 // ── LIBRARY ───────────────────────────────────────────────
@@ -868,14 +929,27 @@ function importData(event) {
       if (data.lastSessionDate) state.lastSessionDate=state.lastSessionDate||data.lastSessionDate;
       if (data.medals) state.medals=[...new Set([...state.medals,...data.medals])];
       if (data.songs) {
-        const ids=new Set(state.songs.map(s=>s.id));
-        data.songs.forEach(s=>{if(!ids.has(s.id))state.songs.push(s);});
+        // Backup file wins: replace local items with the same id (so edits transfer),
+        // add new items, and keep local-only items.
+        data.songs.forEach(imp => {
+          const i = state.songs.findIndex(s => s.id === imp.id);
+          if (i >= 0) state.songs[i] = imp; else state.songs.push(imp);
+        });
       }
       if (data.scales) {
-        const ids=new Set(state.scales.map(s=>s.id));
-        data.scales.forEach(s=>{if(!ids.has(s.id))state.scales.push(s);});
+        data.scales.forEach(imp => {
+          const i = state.scales.findIndex(s => s.id === imp.id);
+          if (i >= 0) state.scales[i] = imp; else state.scales.push(imp);
+        });
       }
-      if (data.history) state.history=[...data.history,...state.history].slice(0,200);
+      if (data.history) {
+        // Merge without duplicating identical entries
+        const seen = new Set();
+        const sig = h => h.date + '|' + h.mins + '|' + (h.items||[]).join(',');
+        state.history = [...data.history, ...state.history]
+          .filter(h => { const k = sig(h); if (seen.has(k)) return false; seen.add(k); return true; })
+          .slice(0,200);
+      }
       checkStreak(); saveState(); render();
       alert('Restored successfully!');
     } catch(err) { alert('Could not read that file. Make sure it is a valid YPA backup.'); }
