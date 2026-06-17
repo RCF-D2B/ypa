@@ -50,6 +50,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .stat-val{font-size:18px;font-weight:600;color:var(--text);}
 .stat-lbl{font-size:10px;color:var(--text2);margin-top:1px;}
 .sec-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;padding:0 1rem;margin-bottom:.5rem;}
+.lib-group-title{font-size:11px;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:.06em;margin:.65rem 0 .4rem;padding-left:2px;}
+.lib-group-title:first-child{margin-top:0;}
 .daily-card{margin:0 1rem 1rem;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;}
 .daily-card h2{font-size:16px;font-weight:600;margin-bottom:.15rem;}
 .daily-card p{font-size:12px;color:var(--text2);margin-bottom:.75rem;}
@@ -897,18 +899,39 @@ function renderLibrary() {
   ['songs','scales'].forEach(type => {
     const el = document.getElementById(`${type}-list`);
     el.innerHTML = '';
-    state[type].forEach(s => {
-      const d = document.createElement('div');
-      d.className = 'lib-item';
-      d.innerHTML = `<span style="font-size:18px;">${type==='songs'?'♪':'♩'}</span>
-        <div class="lib-item-info">
-          <div class="lib-item-name">${s.name}</div>
-          <div class="lib-item-meta">${s.instrument}${s.notes?' · '+s.notes:''}</div>
-          ${s.tab?'<div class="lib-item-has-tab">✓ tab saved</div>':''}
-        </div>
-        <button class="lib-del" onclick="event.stopPropagation();deleteItem('${type==='songs'?'song':'scale'}','${s.id}')" aria-label="Delete">✕</button>`;
-      d.onclick = () => openEdit(type==='songs'?'song':'scale', s.id);
-      el.appendChild(d);
+    const singular = type==='songs' ? 'song' : 'scale';
+    const glyph = type==='songs' ? '♪' : '♩';
+
+    // Sort the whole list alphabetically by name (case-insensitive),
+    // then split into instrument groups. "Both" items show in each group.
+    const sorted = [...state[type]].sort((a,b) =>
+      a.name.localeCompare(b.name, undefined, {sensitivity:'base'}));
+
+    const groups = [
+      { label:'Guitar',  match: s => s.instrument==='Guitar'  || s.instrument==='Both' },
+      { label:'Ukulele', match: s => s.instrument==='Ukulele' || s.instrument==='Both' }
+    ];
+
+    groups.forEach(g => {
+      const items = sorted.filter(g.match);
+      if (!items.length) return;
+      const h = document.createElement('div');
+      h.className = 'lib-group-title';
+      h.textContent = g.label;
+      el.appendChild(h);
+      items.forEach(s => {
+        const d = document.createElement('div');
+        d.className = 'lib-item';
+        d.innerHTML = `<span style="font-size:18px;">${glyph}</span>
+          <div class="lib-item-info">
+            <div class="lib-item-name">${s.name}</div>
+            <div class="lib-item-meta">${s.instrument}${s.notes?' · '+s.notes:''}</div>
+            ${s.tab?'<div class="lib-item-has-tab">✓ tab saved</div>':''}
+          </div>
+          <button class="lib-del" onclick="event.stopPropagation();deleteItem('${singular}','${s.id}')" aria-label="Delete">✕</button>`;
+        d.onclick = () => openEdit(singular, s.id);
+        el.appendChild(d);
+      });
     });
   });
 }
