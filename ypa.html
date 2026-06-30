@@ -436,16 +436,32 @@ function saveState() {
 }
 
 // ── DATE / STREAK ─────────────────────────────────────────
+// The "practice day" runs from 4:00 AM to 4:00 AM, not midnight to
+// midnight. So a session at 1:30 AM counts toward the day that is
+// ending (the previous calendar date), and an afternoon session that
+// same calendar date starts a fresh streak day. This matches how
+// night-owl-friendly habit apps handle late practice.
+const DAY_ROLLOVER_HOUR = 4; // change this number to shift the cutoff
+
+// Returns the Date shifted back so that hours before the rollover
+// belong to the previous calendar day.
+function practiceDate(d) {
+  const shifted = new Date(d.getTime());
+  shifted.setHours(shifted.getHours() - DAY_ROLLOVER_HOUR);
+  return shifted;
+}
+
 function todayKey() {
-  const d = new Date();
+  const d = practiceDate(new Date());
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
 function checkStreak() {
   if (!state.lastSessionDate) { state.todayDone = false; return; }
   if (state.lastSessionDate === todayKey()) { state.todayDone = true; return; }
-  const last = new Date(state.lastSessionDate);
-  const now = new Date(); now.setHours(0,0,0,0); last.setHours(0,0,0,0);
+  // Compare practice-days, not raw calendar days
+  const last = new Date(state.lastSessionDate + 'T12:00:00'); // noon avoids DST edge cases
+  const now = practiceDate(new Date()); now.setHours(0,0,0,0); last.setHours(0,0,0,0);
   const diff = Math.round((now - last) / 86400000);
   if (diff > 2) state.streak = 0; // 48-hour grace period
   state.todayDone = false;
@@ -455,7 +471,7 @@ function checkStreak() {
 function getDailyItems(count) {
   const scales = [...state.scales.map(s=>({...s,kind:'scale'}))];
   const songs  = [...state.songs.map(s=>({...s,kind:'song'}))];
-  const seed = new Date().toDateString();
+  const seed = practiceDate(new Date()).toDateString();
   let h = 0;
   for (let c of seed) h = (h*31 + c.charCodeAt(0)) & 0xffffffff;
   const shuffle = arr => [...arr].sort(()=>{ h^=h<<13;h^=h>>17;h^=h<<5; return(h&1)?1:-1; });
